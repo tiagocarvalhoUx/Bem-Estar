@@ -1,0 +1,66 @@
+// StatisticsScreen.tsx
+import React from 'react';
+import { View, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+export const StatisticsScreen: React.FC = () => {
+  return (
+    <SafeAreaView className="flex-1 bg-white">
+      <View className="flex-1 justify-center items-center px-6">
+        <Text className="text-2xl font-bold text-gray-800 mb-2">Estatísticas</Text>
+        <Text className="text-gray-500 text-center">
+          Aqui veremos gráficos e estatísticas de produtividade
+        </Text>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+// PlannerScreen.tsx
+export const PlannerScreen: React.FC = () => {
+  return (
+    <SafeAreaView className="flex-1 bg-white">
+      <View className="flex-1 justify-center items-center px-6">
+        <Text className="text-2xl font-bold text-gray-800 mb-2">Planejamento</Text>
+        <Text className="text-gray-500 text-center">
+          Planejamento com IA e customização para neurodivergentes
+        </Text>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+// MoodScreen.tsx
+export const MoodScreen: React.FC = () => {
+  return (
+    <SafeAreaView className="flex-1 bg-white">
+      <View className="flex-1 justify-center items-center px-6">
+        <Text className="text-2xl font-bold text-gray-800 mb-2">Diário de Humor</Text>
+        <Text className="text-gray-500 text-center">
+          Registre seu humor e receba insights personalizados
+        </Text>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+// ProfileScreen.tsx
+export const ProfileScreen: React.FC = () => {
+  return (
+    <SafeAreaView className="flex-1 bg-white">
+      <View className="flex-1 justify-center items-center px-6">
+        <Text className="text-2xl font-bold text-gray-800 mb-2">Perfil</Text>
+        <Text className="text-gray-500 text-center">
+          Configurações e preferências do usuário
+        </Text>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+export default {
+  StatisticsScreen,
+  PlannerScreen,
+  MoodScreen,
+  ProfileScreen,
+};
