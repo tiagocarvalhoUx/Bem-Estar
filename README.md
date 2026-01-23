@@ -147,6 +147,41 @@ npm run ios
 
 ---
 
+## 🌐 Deploy na Vercel
+
+### Deploy Automático
+
+1. **Acesse [Vercel](https://vercel.com)** e faça login com sua conta GitHub
+
+2. **Clique em "Add New Project"**
+
+3. **Importe o repositório** `Bem-Estar`
+
+4. **Configure as variáveis de ambiente:**
+   - `EXPO_PUBLIC_FIREBASE_API_KEY`
+   - `EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN`
+   - `EXPO_PUBLIC_FIREBASE_PROJECT_ID`
+   - `EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET`
+   - `EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
+   - `EXPO_PUBLIC_FIREBASE_APP_ID`
+
+5. **Clique em "Deploy"**
+
+### Deploy Manual
+
+```bash
+# Instalar Vercel CLI
+npm i -g vercel
+
+# Fazer login
+vercel login
+
+# Fazer deploy
+vercel --prod
+```
+
+---
+
 ## 📂 Estrutura do Projeto
 
 ```
