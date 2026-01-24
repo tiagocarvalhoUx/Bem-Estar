@@ -147,6 +147,53 @@ npm run ios
 
 ---
 
+## 📱 Testar no Celular
+
+### Opção 1: Expo Go (Rápido e Fácil)
+
+1. **Instale o Expo Go** no seu celular:
+   - [Android - Google Play](https://play.google.com/store/apps/details?id=host.exp.exponent)
+   - [iOS - App Store](https://apps.apple.com/app/expo-go/id982107779)
+
+2. **Inicie o servidor:**
+```bash
+npm start
+```
+
+3. **Escaneie o QR Code** que aparecer no terminal com:
+   - **Android:** App Expo Go
+   - **iOS:** Câmera nativa do iPhone
+
+### Opção 2: Build APK/IPA (App Nativo)
+
+#### Android (APK)
+
+1. **Configure o EAS:**
+```bash
+eas login
+eas build:configure
+```
+
+2. **Gere o APK:**
+```bash
+eas build -p android --profile preview
+```
+
+3. **Aguarde a build** (5-10 minutos)
+4. **Baixe o APK** e instale no Android
+
+#### iOS (IPA)
+
+1. **Gere o IPA:**
+```bash
+eas build -p ios --profile preview
+```
+
+2. **Aguarde a build** (10-15 minutos)
+3. **Use TestFlight** ou instalação via cabo
+
+---
+
 ## 🌐 Deploy na Vercel
 
 ### Deploy Automático
