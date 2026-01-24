@@ -13,10 +13,12 @@ Antes de fazer o deploy, certifique-se de ter:
 ## 🔧 Passo a Passo Completo
 
 ### 1️⃣ Acesse a Vercel
+
 - Vá para https://vercel.com
 - Faça login com sua conta GitHub
 
 ### 2️⃣ Importe o Projeto
+
 1. Clique em **"Add New Project"**
 2. Clique em **"Import Git Repository"**
 3. Selecione o repositório **"Bem-Estar"**
@@ -26,17 +28,20 @@ Antes de fazer o deploy, certifique-se de ter:
 
 **Framework Preset:** Deixe como "Other" ou "Vite"
 
-**Build Command:** 
+**Build Command:**
+
 ```
 npx expo export:web
 ```
 
 **Output Directory:**
+
 ```
 dist
 ```
 
 **Install Command:**
+
 ```
 npm install
 ```
@@ -54,7 +59,8 @@ EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=766082419555
 EXPO_PUBLIC_FIREBASE_APP_ID=1:766082419555:web:70cb51d8fb5be9fa488844
 ```
 
-**⚠️ IMPORTANTE:** 
+**⚠️ IMPORTANTE:**
+
 - Selecione **"Production"**, **"Preview"** e **"Development"** para todas as variáveis
 - Clique em **"Add"** para cada variável
 
@@ -80,21 +86,25 @@ EXPO_PUBLIC_FIREBASE_APP_ID=1:766082419555:web:70cb51d8fb5be9fa488844
 ### Opção B: Via CLI (Mais Confiável)
 
 1. Instale a Vercel CLI:
+
 ```bash
 npm i -g vercel
 ```
 
 2. Faça login:
+
 ```bash
 vercel login
 ```
 
 3. No diretório do projeto, execute:
+
 ```bash
 vercel
 ```
 
 4. Responda as perguntas:
+
 - Set up and deploy? **Y**
 - Which scope? (sua conta)
 - Link to existing project? **N**
@@ -106,6 +116,7 @@ vercel
   - Development Command? `npm run web`
 
 5. Para produção:
+
 ```bash
 vercel --prod
 ```
@@ -115,6 +126,7 @@ vercel --prod
 ## 📊 Monitorando o Deploy
 
 Depois do deploy, você verá:
+
 - ✅ **Status:** Ready
 - 🌐 **URL:** https://bem-estar-xyz.vercel.app
 - 📊 **Logs:** Clique em "View Deployment" para ver logs
@@ -124,19 +136,25 @@ Depois do deploy, você verá:
 ## 🐛 Troubleshooting
 
 ### Erro: "Command failed: npx expo export:web"
+
 **Solução:** Use `npx expo export --platform web` ao invés
 
 ### Erro: "FIREBASE_API_KEY is not defined"
+
 **Solução:** Verifique se todas as variáveis de ambiente foram adicionadas com o prefixo `EXPO_PUBLIC_`
 
 ### Erro 404 após deploy
-**Solução:** 
+
+**Solução:**
+
 1. Verifique se o `vercel.json` está commitado
 2. Verifique se o output directory está como `dist`
 3. Redeploy o projeto
 
 ### Build trava em "Building..."
-**Solução:** 
+
+**Solução:**
+
 1. Cancele o deploy
 2. Use a Vercel CLI (método mais estável)
 
@@ -156,6 +174,7 @@ Depois do deploy bem-sucedido:
 ## 🎉 Deploy Automático
 
 Após o primeiro deploy:
+
 - ✅ Cada `git push` na branch `main` dispara deploy automático
 - ✅ Pull requests geram preview deployments
 - ✅ Rollback fácil através do dashboard
@@ -165,6 +184,7 @@ Após o primeiro deploy:
 ## 📞 Suporte
 
 Se continuar com problemas:
+
 1. Verifique os logs no dashboard da Vercel
 2. Verifique se o Firebase está configurado corretamente
 3. Entre em contato com suporte da Vercel: https://vercel.com/support
