@@ -144,11 +144,20 @@ const LoginScreen: React.FC = () => {
   const handleGoogleLogin = async () => {
     try {
       setLoading(true);
-      await authService.signInWithGoogle();
+      const result = await authService.signInWithGoogle();
+      // Se for redirect, result pode ser null
+      if (!result) {
+        console.log('LoginScreen: Aguardando redirect do Google...');
+        return;
+      }
       // Navegação automática será feita pelo AuthContext
     } catch (error: any) {
+      console.error('LoginScreen: Erro no login com Google:', error);
       if (error.message !== 'Login cancelado' && error.message !== 'Login cancelado pelo usuário') {
-        Alert.alert('Erro ao fazer login com Google', error.message || 'Tente novamente');
+        const errorMsg = Platform.OS === 'web' 
+          ? 'Erro ao fazer login com Google. Tente novamente ou use email e senha.' 
+          : error.message;
+        Alert.alert('Erro ao fazer login com Google', errorMsg);
       }
     } finally {
       setLoading(false);

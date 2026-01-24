@@ -225,12 +225,21 @@ const RegisterScreen: React.FC = () => {
   const handleGoogleSignUp = async () => {
     try {
       setLoading(true);
-      await authService.signInWithGoogle();
+      const result = await authService.signInWithGoogle();
+      // Se for redirect, result pode ser null
+      if (!result) {
+        console.log('RegisterScreen: Aguardando redirect do Google...');
+        return;
+      }
       // A navegação automática será feita pelo AuthContext
       // Não precisa do Alert pois vai direto para o app
     } catch (error: any) {
+      console.error('RegisterScreen: Erro no cadastro com Google:', error);
       if (error.message !== 'Login cancelado' && error.message !== 'Login cancelado pelo usuário') {
-        Alert.alert('Erro ao fazer cadastro com Google', error.message || 'Tente novamente');
+        const errorMsg = Platform.OS === 'web' 
+          ? 'Erro ao fazer cadastro com Google. Tente novamente ou use email e senha.' 
+          : error.message;
+        Alert.alert('Erro ao fazer cadastro com Google', errorMsg);
       }
     } finally {
       setLoading(false);
