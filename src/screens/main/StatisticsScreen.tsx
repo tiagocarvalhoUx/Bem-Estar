@@ -902,6 +902,7 @@ const StatisticsScreen = () => {
     label,
     trend,
     color,
+    bgColor,
     delay,
   }: {
     icon: any;
@@ -909,6 +910,7 @@ const StatisticsScreen = () => {
     label: string;
     trend?: number;
     color: string;
+    bgColor: string;
     delay: number;
   }) => {
     const [cardAnim] = useState(new Animated.Value(0));
@@ -939,30 +941,13 @@ const StatisticsScreen = () => {
           opacity: cardAnim,
         }}
       >
-        <LinearGradient colors={["#ffffff", "#fafafa"]} style={styles.statCard}>
-          <View style={[styles.statIconBg, { backgroundColor: color + "15" }]}>
-            <Ionicons name={icon} size={24} color={color} />
+        <View style={[styles.statCard, { backgroundColor: bgColor }]}>
+          <View style={styles.statIconBg}>
+            <Ionicons name={icon} size={32} color={color} />
           </View>
           <Text style={styles.statCardValue}>{value}</Text>
           <Text style={styles.statCardLabel}>{label}</Text>
-          {trend && (
-            <View style={styles.trendContainer}>
-              <Ionicons
-                name={trend > 0 ? "trending-up" : "trending-down"}
-                size={14}
-                color={trend > 0 ? "#10b981" : "#f43f5e"}
-              />
-              <Text
-                style={[
-                  styles.trendText,
-                  { color: trend > 0 ? "#10b981" : "#f43f5e" },
-                ]}
-              >
-                {Math.abs(trend)}%
-              </Text>
-            </View>
-          )}
-        </LinearGradient>
+        </View>
       </Animated.View>
     );
   };
@@ -1062,29 +1047,33 @@ const StatisticsScreen = () => {
                 <StatCard
                   icon="timer-outline"
                   value={topStats.totalTime}
-                  label="Tempo focado"
+                  label="Tempo Focado"
                   color="#3b82f6"
+                  bgColor="#dbeafe"
                   delay={100}
                 />
                 <StatCard
                   icon="calendar-outline"
-                  value={topStats.activeDays.toString()}
-                  label="Dias ativos"
+                  value={`${topStats.activeDays}/30 dias`}
+                  label="Dias Ativos"
                   color="#10b981"
+                  bgColor="#d1fae5"
                   delay={200}
                 />
                 <StatCard
                   icon="flame-outline"
-                  value={topStats.streak.toString()}
+                  value={`${topStats.streak} dias`}
                   label="Sequência"
-                  color="#f59e0b"
+                  color="#f97316"
+                  bgColor="#fed7aa"
                   delay={300}
                 />
                 <StatCard
                   icon="trophy-outline"
                   value={`${topStats.successRate}%`}
-                  label="Taxa de sucesso"
+                  label="Taxa de Sucesso"
                   color="#8b5cf6"
+                  bgColor="#e9d5ff"
                   delay={400}
                 />
               </View>
@@ -1315,52 +1304,51 @@ const styles = StyleSheet.create({
   statsGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-between",
+    gap: 12,
     marginBottom: 24,
-    paddingHorizontal: 16,
+    paddingHorizontal: 0,
   },
   statCard: {
     width: "48%",
-    marginBottom: 10,
-    padding: 16,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: "rgba(0,0,0,0.05)",
+    minHeight: 160,
+    padding: 20,
+    borderRadius: 20,
     alignItems: "center",
+    justifyContent: "center",
     ...Platform.select({
       ios: {
         shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.08,
-        shadowRadius: 8,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 12,
       },
       android: {
-        elevation: 2,
+        elevation: 4,
       },
     }),
   },
   statIconBg: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
+    width: 56,
+    height: 56,
+    borderRadius: 16,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 8,
+    marginBottom: 16,
+    backgroundColor: "transparent",
   },
   statCardValue: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "800",
     color: "#0f172a",
-    marginBottom: 2,
+    marginBottom: 4,
     letterSpacing: -0.5,
+    textAlign: "center",
   },
   statCardLabel: {
-    fontSize: 12,
+    fontSize: 14,
     color: "#64748b",
     fontWeight: "600",
     textAlign: "center",
-    textAlign: "center",
-    marginBottom: 8,
   },
   trendContainer: {
     flexDirection: "row",
