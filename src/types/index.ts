@@ -1,16 +1,16 @@
 // Tipos principais do aplicativo
 
 export enum PomodoroMode {
-  WORK = 'work',
-  SHORT_BREAK = 'shortBreak',
-  LONG_BREAK = 'longBreak',
+  WORK = "work",
+  SHORT_BREAK = "shortBreak",
+  LONG_BREAK = "longBreak",
 }
 
 export enum TimerStatus {
-  IDLE = 'idle',
-  RUNNING = 'running',
-  PAUSED = 'paused',
-  COMPLETED = 'completed',
+  IDLE = "idle",
+  RUNNING = "running",
+  PAUSED = "paused",
+  COMPLETED = "completed",
 }
 
 export interface PomodoroSession {
@@ -89,11 +89,11 @@ export interface AISuggestion {
 }
 
 export enum SuggestionType {
-  OPTIMAL_TIME = 'optimalTime',
-  BREAK_REMINDER = 'breakReminder',
-  PRODUCTIVITY_TIP = 'productivityTip',
-  MOOD_CHECK = 'moodCheck',
-  GOAL_ADJUSTMENT = 'goalAdjustment',
+  OPTIMAL_TIME = "optimalTime",
+  BREAK_REMINDER = "breakReminder",
+  PRODUCTIVITY_TIP = "productivityTip",
+  MOOD_CHECK = "moodCheck",
+  GOAL_ADJUSTMENT = "goalAdjustment",
 }
 
 export interface MoodEntry {
@@ -132,11 +132,11 @@ export interface ProductivityPattern {
   bestTimeOfDay: string;
   averageSessionsPerDay: number;
   mostProductiveDay: string;
-  productivityTrend: 'improving' | 'stable' | 'declining';
+  productivityTrend: "improving" | "stable" | "declining";
 }
 
 export interface BurnoutRisk {
-  risk: 'low' | 'medium' | 'high';
+  risk: "low" | "medium" | "high";
   reasons: string[];
   suggestions?: string[];
 }
@@ -158,6 +158,7 @@ export type RootStackParamList = {
 export type MainTabParamList = {
   Home: undefined;
   Statistics: undefined;
+  AIInsights: undefined;
   Planner: undefined;
   Mood: undefined;
   Profile: undefined;
@@ -174,7 +175,11 @@ export interface AuthContextType {
   user: UserProfile | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string, displayName: string) => Promise<void>;
+  signUp: (
+    email: string,
+    password: string,
+    displayName: string,
+  ) => Promise<void>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
 }
@@ -184,11 +189,14 @@ export interface PomodoroContextType {
   timeRemaining: number;
   status: TimerStatus;
   completedSessions: number;
+  sessions: PomodoroSession[];
+  moodHistory: MoodEntry[];
   startTimer: () => void;
   pauseTimer: () => void;
   resetTimer: () => void;
   skipTimer: () => void;
   switchMode: (mode: PomodoroMode) => void;
+  addMoodEntry: (mood: MoodEntry) => void;
 }
 
 // Firebase Types
