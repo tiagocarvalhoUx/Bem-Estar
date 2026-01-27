@@ -42,9 +42,9 @@ const MainNavigator: React.FC = () => {
         tabBarActiveTintColor: "#0ea5e9",
         tabBarInactiveTintColor: "#9ca3af",
         tabBarStyle: {
-          height: Platform.OS === "ios" ? 88 : 64,
-          paddingBottom: Platform.OS === "ios" ? 24 : 8,
-          paddingTop: 8,
+          height: Platform.OS === "ios" ? 80 : 60,
+          paddingBottom: Platform.OS === "ios" ? 20 : 6,
+          paddingTop: 6,
           borderTopWidth: 1,
           borderTopColor: "#e5e7eb",
         },

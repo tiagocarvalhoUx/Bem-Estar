@@ -1315,13 +1315,13 @@ const styles = StyleSheet.create({
   statsGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 12,
+    justifyContent: "space-between",
     marginBottom: 24,
     paddingHorizontal: 20,
   },
   statCard: {
-    flex: 1,
-    minWidth: 150,
+    width: "48%",
+    marginBottom: 12,
     padding: 20,
     borderRadius: 20,
     borderWidth: 1,
