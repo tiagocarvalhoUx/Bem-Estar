@@ -18,6 +18,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useAuth } from "../../contexts/AuthContext";
 import { usePomodoro } from "../../contexts/PomodoroContext";
+import { useTheme } from "../../contexts/ThemeContext";
 import { PomodoroMode } from "../../types";
 import firestoreService from "../../services/firestore.service";
 
@@ -38,6 +39,7 @@ const ProfileScreen = () => {
 
   const { user, signOut, refreshUserData } = useAuth();
   const { sessions, moodHistory } = usePomodoro();
+  const { theme, darkMode, toggleDarkMode } = useTheme();
   const { width } = useWindowDimensions();
   const isDesktop = width >= 1024;
   const isTablet = width >= 768 && width < 1024;
@@ -48,9 +50,6 @@ const ProfileScreen = () => {
   );
   const [soundEnabled, setSoundEnabled] = useState(
     user?.preferences?.enableSounds ?? true,
-  );
-  const [darkModeEnabled, setDarkModeEnabled] = useState(
-    user?.preferences?.darkMode ?? false,
   );
 
   // Estados para modais
@@ -73,7 +72,6 @@ const ProfileScreen = () => {
     if (user?.preferences) {
       setNotificationsEnabled(user.preferences.enableNotifications ?? true);
       setSoundEnabled(user.preferences.enableSounds ?? true);
-      setDarkModeEnabled(user.preferences.darkMode ?? false);
     }
   }, [user?.preferences]);
 
@@ -421,24 +419,29 @@ const ProfileScreen = () => {
   };
 
   const handleToggleDarkMode = async (value: boolean) => {
-    setDarkModeEnabled(value);
     if (user?.id) {
       try {
+        await toggleDarkMode(value);
+
         await firestoreService.updateUserPreferences(user.id, {
           ...user.preferences,
           darkMode: value,
         });
+
         console.log("Preferência de modo escuro atualizada:", value);
+
+        // Atualizar contexto
+        await refreshUserData();
+
         Alert.alert(
           "Modo Escuro",
           value
-            ? "Modo escuro ativado! Esta funcionalidade está em desenvolvimento e será aprimorada em breve."
+            ? "Modo escuro ativado em todas as abas!"
             : "Modo escuro desativado.",
           [{ text: "OK" }],
         );
       } catch (error) {
         console.error("Erro ao atualizar modo escuro:", error);
-        setDarkModeEnabled(!value); // Reverter em caso de erro
         Alert.alert("Erro", "Não foi possível salvar a configuração");
       }
     }
@@ -778,19 +781,6 @@ const ProfileScreen = () => {
   const totalAchievements = achievements.length;
   const achievementProgress = (unlockedAchievements / totalAchievements) * 100;
 
-  // Tema dinâmico baseado no modo escuro
-  const theme = {
-    background: darkModeEnabled ? "#0f172a" : "#f8fafc",
-    card: darkModeEnabled ? "#1e293b" : "#ffffff",
-    cardSecondary: darkModeEnabled ? "#334155" : "#fafafa",
-    text: darkModeEnabled ? "#f1f5f9" : "#1e293b",
-    textSecondary: darkModeEnabled ? "#cbd5e1" : "#64748b",
-    border: darkModeEnabled ? "#475569" : "#e2e8f0",
-    inputBg: darkModeEnabled ? "#334155" : "#f8fafc",
-    gradient1: darkModeEnabled ? "#1e293b" : "#dbeafe",
-    gradient2: darkModeEnabled ? "#0f172a" : "#ffffff",
-  };
-
   return (
     <View style={{ flex: 1, backgroundColor: theme.background }}>
       <LinearGradient
@@ -1008,7 +998,7 @@ const ProfileScreen = () => {
                       showArrow={false}
                       rightElement={
                         <Switch
-                          value={darkModeEnabled}
+                          value={darkMode}
                           onValueChange={handleToggleDarkMode}
                           trackColor={{ false: "#e2e8f0", true: "#8b5cf6" }}
                           thumbColor="#ffffff"

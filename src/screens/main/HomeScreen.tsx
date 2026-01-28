@@ -15,6 +15,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { usePomodoro } from "../../contexts/PomodoroContext";
 import { useAuth } from "../../contexts/AuthContext";
+import { useTheme } from "../../contexts/ThemeContext";
 import TimerCircle from "../../components/TimerCircle";
 import TimerControls from "../../components/TimerControls";
 import ModeSelector from "../../components/ModeSelector";
@@ -27,6 +28,7 @@ const HomeScreen = () => {
   const [pulseAnim] = useState(new Animated.Value(1));
 
   const { user } = useAuth();
+  const { theme } = useTheme();
   const {
     currentMode,
     timeRemaining,
@@ -329,8 +331,11 @@ const HomeScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#f8fafc" }}>
-      <LinearGradient colors={[colors.light, "#ffffff"]} style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: theme.background }}>
+      <LinearGradient
+        colors={[theme.gradient1, theme.gradient2]}
+        style={{ flex: 1 }}
+      >
         <SafeAreaView style={{ flex: 1 }}>
           <ScrollView
             style={{ flex: 1 }}
