@@ -1304,15 +1304,16 @@ const styles = StyleSheet.create({
   statsGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 12,
+    gap: 16,
     marginBottom: 24,
     paddingHorizontal: 0,
+    justifyContent: "space-between",
   },
   statCard: {
-    width: "48%",
-    minHeight: 160,
-    padding: 20,
-    borderRadius: 20,
+    width: "110%",
+    minHeight: 230,
+    padding: 24,
+    borderRadius: 24,
     alignItems: "center",
     justifyContent: "center",
     ...Platform.select({

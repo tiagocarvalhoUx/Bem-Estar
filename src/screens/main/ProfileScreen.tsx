@@ -36,7 +36,7 @@ const ProfileScreen = () => {
   const [fadeAnim] = useState(new Animated.Value(0));
   const [slideAnim] = useState(new Animated.Value(30));
 
-  const { user, signOut } = useAuth();
+  const { user, signOut, refreshUserData } = useAuth();
   const { sessions, moodHistory } = usePomodoro();
   const { width } = useWindowDimensions();
   const isDesktop = width >= 1024;
@@ -487,21 +487,26 @@ const ProfileScreen = () => {
   };
 
   const handleSavePomodoroSettings = async () => {
-    if (workDuration < 1 || workDuration > 60) {
+    // Aplicar valores padrões se estiverem zerados
+    const finalWorkDuration = workDuration || 25;
+    const finalShortBreak = shortBreakDuration || 5;
+    const finalLongBreak = longBreakDuration || 15;
+
+    if (finalWorkDuration < 1 || finalWorkDuration > 60) {
       Alert.alert(
         "Erro",
         "Duração do trabalho deve estar entre 1 e 60 minutos",
       );
       return;
     }
-    if (shortBreakDuration < 1 || shortBreakDuration > 30) {
+    if (finalShortBreak < 1 || finalShortBreak > 30) {
       Alert.alert(
         "Erro",
         "Duração da pausa curta deve estar entre 1 e 30 minutos",
       );
       return;
     }
-    if (longBreakDuration < 1 || longBreakDuration > 60) {
+    if (finalLongBreak < 1 || finalLongBreak > 60) {
       Alert.alert(
         "Erro",
         "Duração da pausa longa deve estar entre 1 e 60 minutos",
@@ -510,12 +515,27 @@ const ProfileScreen = () => {
     }
 
     try {
+      console.log("ProfileScreen: Salvando configurações...", {
+        workDuration: finalWorkDuration,
+        shortBreakDuration: finalShortBreak,
+        longBreakDuration: finalLongBreak,
+      });
+
       await firestoreService.updateUserPreferences(user!.id, {
         ...user!.preferences,
-        workDuration,
-        shortBreakDuration,
-        longBreakDuration,
+        workDuration: finalWorkDuration,
+        shortBreakDuration: finalShortBreak,
+        longBreakDuration: finalLongBreak,
       });
+
+      console.log(
+        "ProfileScreen: Configurações salvas, atualizando contexto...",
+      );
+
+      // Atualizar os dados do usuário no contexto
+      await refreshUserData();
+
+      console.log("ProfileScreen: Contexto atualizado com sucesso");
 
       setShowPomodoroSettingsModal(false);
       Alert.alert("Sucesso", "Configurações de Pomodoro atualizadas!");
@@ -1290,7 +1310,10 @@ const ProfileScreen = () => {
             </Text>
             <TextInput
               value={String(workDuration)}
-              onChangeText={(text) => setWorkDuration(parseInt(text) || 25)}
+              onChangeText={(text) => {
+                const num = parseInt(text);
+                setWorkDuration(isNaN(num) ? 0 : num);
+              }}
               keyboardType="numeric"
               placeholder="25"
               style={{
@@ -1317,9 +1340,10 @@ const ProfileScreen = () => {
             </Text>
             <TextInput
               value={String(shortBreakDuration)}
-              onChangeText={(text) =>
-                setShortBreakDuration(parseInt(text) || 5)
-              }
+              onChangeText={(text) => {
+                const num = parseInt(text);
+                setShortBreakDuration(isNaN(num) ? 0 : num);
+              }}
               keyboardType="numeric"
               placeholder="5"
               style={{
@@ -1346,9 +1370,10 @@ const ProfileScreen = () => {
             </Text>
             <TextInput
               value={String(longBreakDuration)}
-              onChangeText={(text) =>
-                setLongBreakDuration(parseInt(text) || 15)
-              }
+              onChangeText={(text) => {
+                const num = parseInt(text);
+                setLongBreakDuration(isNaN(num) ? 0 : num);
+              }}
               keyboardType="numeric"
               placeholder="15"
               style={{

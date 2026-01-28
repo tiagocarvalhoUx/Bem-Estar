@@ -63,6 +63,22 @@ export const PomodoroProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [currentMode, status]);
 
+  // Atualizar tempo quando as preferências do usuário mudarem
+  useEffect(() => {
+    if (status === TimerStatus.IDLE && user?.preferences) {
+      const duration = getDurationForMode(currentMode);
+      setTimeRemaining(duration * 60);
+      console.log(
+        "PomodoroContext: Preferências atualizadas, novo tempo:",
+        duration,
+      );
+    }
+  }, [
+    user?.preferences?.workDuration,
+    user?.preferences?.shortBreakDuration,
+    user?.preferences?.longBreakDuration,
+  ]);
+
   // Carregar dados do Firestore quando o usuário logar
   useEffect(() => {
     const loadUserData = async () => {
@@ -277,7 +293,6 @@ export const PomodoroProvider: React.FC<{ children: React.ReactNode }> = ({
         { shouldPlay: true },
       );
       soundRef.current = sound;
-      await sound.playAsync();
 
       // Descarregar som após tocar
       setTimeout(() => {

@@ -182,6 +182,7 @@ export interface AuthContextType {
   ) => Promise<void>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
+  refreshUserData: () => Promise<void>;
 }
 
 export interface PomodoroContextType {

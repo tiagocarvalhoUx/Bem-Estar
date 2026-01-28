@@ -152,6 +152,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const refreshUserData = async () => {
+    if (!user?.id) return;
+
+    try {
+      console.log("AuthContext: Iniciando refresh dos dados do usuário...");
+      const userData = await authService.getUserData(user.id);
+      if (userData) {
+        console.log(
+          "AuthContext: Dados recebidos do Firestore:",
+          userData.preferences,
+        );
+        // Criar novo objeto para forçar re-render
+        setUser({
+          ...user,
+          preferences: {
+            ...user.preferences,
+            ...userData.preferences,
+          },
+          statistics: userData.statistics || user.statistics,
+        });
+        console.log("AuthContext: User atualizado com novas preferências");
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar dados do usuário:", error);
+    }
+  };
+
   const value: AuthContextType = {
     user,
     loading,
@@ -159,6 +186,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     signUp,
     signOut,
     resetPassword,
+    refreshUserData,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

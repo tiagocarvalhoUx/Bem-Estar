@@ -844,11 +844,12 @@ const styles = StyleSheet.create({
   moodGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 12,
+    gap: 25,
   },
   moodButton: {
-    paddingVertical: 20,
-    paddingHorizontal: 12,
+    paddingVertical: 1,
+    paddingHorizontal: 26,
+
     borderRadius: 20,
     alignItems: "center",
     borderWidth: 2,
